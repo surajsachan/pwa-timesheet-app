@@ -5,7 +5,6 @@ import ProtectedRoute from "./components/Common/ProtectedRoute";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import Login from "./components/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AdminRoute from "./components/AdminHome";
 import TimeSheetView from "./components/Timesheetview";
 import TNavbar from "./components/Common/Navbar";
 import FillTimesheet from "./components/FillTimesheet";

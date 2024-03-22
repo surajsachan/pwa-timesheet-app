@@ -40,7 +40,6 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const messaging = getMessaging(app);
 const addDeviceToFCM = httpsCallable(getFunctions(), 'addDeviceToFCM')
-const analytics = getAnalytics(app);
 
 export const requestForToken = async () => {
     return getToken(messaging, { vapidKey: firebaseConfig.vapidKey })

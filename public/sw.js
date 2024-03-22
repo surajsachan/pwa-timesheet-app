@@ -26,7 +26,6 @@ this.addEventListener("fetch", (event) => {
                 })
                 .catch((error) => {
                     console.error('Fetch error:', error);
-                    // return a default fallback response or a custom error response
                     return new Response('An error occurred', { status: 500 });
                 })
         )
