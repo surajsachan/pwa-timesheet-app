@@ -29,13 +29,14 @@ const Login = () => {
 
     const handleGoogleSignIn = async (e) => {
         e.preventDefault();
-        try {
-            const userCredential = await googleSignIn();
-            await checkUserAndNavigate(userCredential.user);
-        } catch (error) {
+        googleSignIn().then(() => {
+            sessionStorage.setItem('isLoggedIn', 'true')
+            sessionStorage.setItem('isAdmin', 'false');
+            navigate("/home");
+        }).catch(err => {
             console.log(error.message);
             setError(error.message);
-        }
+        })
     };
 
     const checkUserAndNavigate = useCallback(async (currentUser) => {
