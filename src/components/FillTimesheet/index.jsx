@@ -59,12 +59,12 @@ function FillTimesheet() {
             }
 
             setMessage({ text: 'Timesheet submitted successfully.', type: 'success' });
-            setTimeout(() => setMessage({ text: '', type: '' }), 5000); // Notification disappears after 5 seconds
+            setTimeout(() => setMessage({ text: '', type: '' }), 5000);
 
-            resetForm(); // Reset the form fields after successful submission
+            resetForm();
         } catch (error) {
             setMessage({ text: `Error submitting timesheet: ${error.message}`, type: 'danger' });
-            setTimeout(() => setMessage({ text: '', type: '' }), 5000); // Notification disappears after 5 seconds
+            setTimeout(() => setMessage({ text: '', type: '' }), 5000);
         }
     };
 
@@ -105,7 +105,7 @@ function FillTimesheet() {
                     )}
                     <Form.Group controlId="formTimeSheetDescription">
                         <FloatingLabel controlId="floatingDesceription" label="Description">
-                            <Form.Control as="textarea" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <Form.Control as="textarea" rows={3} required value={description} onChange={(e) => setDescription(e.target.value)} />
                         </FloatingLabel>
                     </Form.Group>
                     {type === 'leave' && (

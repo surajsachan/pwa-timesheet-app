@@ -48,31 +48,27 @@ const TimeSheetView = () => {
 
 
     return (
-        <>
-            {timeSheets.length > 0 &&
-                <Card>
-                    <Card.Body>
-                        <Card.Title>Timesheets</Card.Title>
-                        <div className="table-responsive">
-                            <Table striped bordered hover>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Start</th>
-                                        <th>End</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {timeSheets.map(renderTimeSheetRow)}
-                                </tbody>
-                            </Table>
-                        </div>
-                    </Card.Body>
-                </Card>
-            }
-        </>
+        <Card>
+            <Card.Body>
+                <Card.Title>Timesheets</Card.Title>
+                <div className="table-responsive">
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {!!timeSheets.length && timeSheets.map(renderTimeSheetRow)}
+                        </tbody>
+                    </Table>
+                </div>
+            </Card.Body>
+        </Card>
     );
 };
 

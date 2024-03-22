@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-// This component is for rendering each row of the timesheet.
 const TimeSheetRow = ({ sheet, onApprove, onReject, isAdminView }) => {
     return (
         <tr>

@@ -9,16 +9,25 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import Loader from "../components/Common/Loader";
 
 
-const userAuthContext = createContext();
+const userAuthContext = createContext(null);
 
 export function UserAuthContextProvider({ children }) {
     const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    function logIn(email, password) {
-        return signInWithEmailAndPassword(auth, email, password);
+
+    async function logIn(email, password) {
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
+
     const signUp = async (name, email, password) => {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -37,6 +46,7 @@ export function UserAuthContextProvider({ children }) {
         }
     }
     function logOut() {
+        setLoading(true);
         return signOut(auth);
     }
     const googleSignIn = async () => {
@@ -63,10 +73,13 @@ export function UserAuthContextProvider({ children }) {
         }
     }
 
+
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
             console.log("Auth", currentuser);
             setUser(currentuser);
+            setLoading(false);
         });
 
         return () => {
@@ -76,9 +89,9 @@ export function UserAuthContextProvider({ children }) {
 
     return (
         <userAuthContext.Provider
-            value={{ user, logIn, signUp, logOut, googleSignIn }}
+            value={{ user, loading, logIn, signUp, logOut, googleSignIn }}
         >
-            {children}
+            {!!loading ? <Loader /> : children}
         </userAuthContext.Provider>
     );
 }

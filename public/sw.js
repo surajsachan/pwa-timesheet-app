@@ -5,11 +5,8 @@ this.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(cacheData).then((cache) => {
             cache.addAll([
-                "favicon.ico",
-                "logo192.png",
-                "/home",
-                "/timesheet",
-                "/adminHome"
+                "/favicon.ico",
+                "/logo192.png", "/logo512.png"
             ])
         })
     )

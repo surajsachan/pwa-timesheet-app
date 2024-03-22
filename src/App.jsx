@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Signup from "./components/Signup";
-import ProtectedRoute from "./components/Common/ProtectedRoute";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import Login from "./components/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,50 +8,82 @@ import TimeSheetView from "./components/Timesheetview";
 import TNavbar from "./components/Common/Navbar";
 import FillTimesheet from "./components/FillTimesheet";
 import AdminTimeSheetView from "./components/AdminTimesheetView";
-import { AdminProvider } from "./context/AdminContext";
+import RestrictedAccess from "./components/Common/RestrictedAccess";
+import Notification from "./components/Common/Notification";
 
 
 function App() {
 
+  const LoginProtection = ({ children }) => {
+    if (sessionStorage.getItem('isLoggedIn') === 'true') {
+      return children;
+    } else {
+      return <RestrictedAccess redirectPath="/" redirectDelay={3000} />;
+    }
+  }
+
+  const UserProtection = ({ children }) => {
+
+    if (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('isAdmin') === 'false') {
+      return children;
+    } else {
+      return <RestrictedAccess redirectPath="/adminHome" redirectDelay={3000} />;
+    }
+  }
+
+  const AdminProtection = ({ children }) => {
+    if (sessionStorage.getItem('isAdmin') === 'true') {
+      return children;
+    } else {
+      return <RestrictedAccess redirectPath="/home" redirectDelay={3000} />;
+    }
+
+  }
+
   return (
     <UserAuthContextProvider>
-      <AdminProvider>
-        <Router>
-          <Routes>
-            <Route
-              path="/home"
-              element={
-                <ProtectedRoute>
+      <Router>
+        <Notification />
+        <Routes>
+          <Route
+            path="/home"
+            element={
+              <LoginProtection>
+                <UserProtection>
                   <TNavbar />
                   <TimeSheetView />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/timesheet"
-              element={
-                <ProtectedRoute>
+                </UserProtection>
+              </LoginProtection>
+            }
+          />
+          <Route
+            path="/timesheet"
+            element={
+              <LoginProtection>
+                <UserProtection>
                   <TNavbar />
                   <FillTimesheet />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/adminHome"
-              element={
-                <ProtectedRoute>
+                </UserProtection>
+              </LoginProtection>
+            }
+          />
+          <Route
+            path="/adminHome"
+            element={
+              <LoginProtection>
+                <AdminProtection>
                   <TNavbar />
                   <AdminTimeSheetView />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </Router>
-      </AdminProvider>
+                </AdminProtection>
+              </LoginProtection>
+            }
+          />
+          <Route path="/" element={<Login />} />
+          <Route path="/*" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Router>
     </UserAuthContextProvider>
-
   );
 }
 
