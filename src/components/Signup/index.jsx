@@ -53,7 +53,7 @@ const Signup = () => {
             label="Password"
             className="mb-3"
           >
-            <Form.Control type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
+            <Form.Control type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} autocomplete="current-password" />
           </FloatingLabel>
 
           <div className="d-grid gap-2">
